@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProjectRequest;
 use App\Models\Project;
+use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -25,7 +26,8 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('admin.projects.create');
+        $types = Type::orderBy('name','ASC')->get();
+        return view('admin.projects.create', compact('types'));
     }
 
     /**
@@ -33,6 +35,12 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
+        $request->validate(
+            [
+                'type_id' => 'nullable|exists:types,id'
+            ]
+        );
+
         $data = $request->all();
         $project = Project::create($data);
         return redirect()->route('admin.projects.show', $project);
@@ -52,7 +60,8 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return view('admin.projects.edit', compact('project'));
+        $types = Type::orderBy('name','ASC')->get();
+        return view('admin.projects.edit', compact('project','types'));
 
     }
 

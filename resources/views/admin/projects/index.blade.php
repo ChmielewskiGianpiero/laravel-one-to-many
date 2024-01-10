@@ -9,9 +9,11 @@
                     <tr>
                         <th>ID</th>
                         <th>Progetto</th>
+                        <th>Tipo</th>
                         <th>Contenuto</th>
+                        <th></th>
                         <th>
-                            <a href="{{route('admin.projects.create' )}}">Nuovo</a>
+                            <a href="{{route('admin.projects.create' )}}" class="btn btn-primary">Nuovo</a>
                         </th>
                     </tr>
                 </thead>
@@ -22,6 +24,8 @@
                             <td>
                                 <a href="{{route('admin.projects.show', $project)}}"> {{ $project->title }}</a>
                             </td>
+                            {{-- <td>{{ isset($project->type) ? $project->type->name : '-' }}</td> --}}
+                            <td>{{ optional($project->type)->name }}</td>
                             <td>{{ $project->content }}</td>
                             <td>
                                 <a href="{{route('admin.projects.edit', $project)}}">Modifica</a>
@@ -31,7 +35,7 @@
                                     @csrf
                                     @method('DELETE')
 
-                                    <input type="submit" value="Elimina">
+                                    <input class="btn btn-danger ms-fs" type="submit" value="Elimina">
                                 </form>
                             </td>
                         </tr>

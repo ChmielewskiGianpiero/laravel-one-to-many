@@ -7,10 +7,25 @@
         @csrf
         @method('PUT')
 
-        <div class="mb-3">
+        <div class="my-3">
           <label for="title" class="form-label">Title</label>
           <input type="text" class="form-control" name="title" id="title" placeholder="Titolo del progetto" value="{{ old('title',$project->title) }}">
         </div>
+
+        <div class="my-3">
+          <label for="type_id" class="form-label">Tipo</label>
+            <select name="type_id" class="form-control" id="type_id">
+                                  
+              <option>Seleziona un tipo di progetto</option>
+
+              @foreach($types as $type)
+                <option @selected( old('type_id') == $type->id ) value="{{ $type->id }}">{{ $type->name }}</option>
+              @endforeach
+
+            </select>
+        </div>
+                
+
         <div class="mb-3">
           <label for="content"  class="form-label">content</label>
           <textarea class="form-control" id="content" name="content" rows="3">{{ old('content',$project->content) }}</textarea>
